@@ -1,8 +1,7 @@
 
 #include <SDL.h>
 #include <gl\glew.h>
-#include <SDL_opengl.h>
-#include <windows.h>
+//#include <windows.h>
 #include <iostream>
 #include "GLShader.h"
 
@@ -61,7 +60,7 @@ int wmain(int argc, char* argv[])
 	SDL_GL_SetSwapInterval(1);
 	context = SDL_GL_CreateContext(window);
 	glewExperimental = GL_TRUE;
-	if (GLEW_OK != glewInit())
+	if (glewInit() != GLEW_OK)
 		exit(EXIT_FAILURE);
 	init();
 	std::cout <<"OPENGL VERSION: "<< (const char*)glGetString(GL_VERSION) << std::endl;
@@ -72,7 +71,7 @@ int wmain(int argc, char* argv[])
 	{
 		while (SDL_PollEvent(&_event))
 		{
-			if (_event.type == SDL_QUIT){ running = false; }
+			if (_event.type == SDL_QUIT || _event.key.keysym.sym == SDLK_ESCAPE){ running = false; }
 		}
 		Render();
 		SDL_GL_SwapWindow(window);
